@@ -1,7 +1,0 @@
-streamlit>=1.8.1
-click==8.0.4
-chatbot==1.5.2b0
-ChatterBot==1.0.4
-chatterbot-corpus==1.2.0
-torch==1.11.0
-transformers==4.18.0

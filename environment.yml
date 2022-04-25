@@ -1,0 +1,6 @@
+ channels:
+     - conda-forge
+ dependencies:
+     - chatbot
+     - ChatterBot
+     - chatterbot-corpus
