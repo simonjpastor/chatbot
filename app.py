@@ -98,33 +98,28 @@ bot_messages.append(bot_initial_message)
 
 
 st.image('jackson_logo.png')
-count = 0
+if 'count' not in st.session_state:
+    st.session_state.count = 0
 
 @st.cache(suppress_st_warning=True)
 def display_messages(count, bot_messages, user_messages):
-    for i in range(0,len(user_messages)):
+    for i in range(0,count):
         message(bot_messages[i])
         message(user_messages[i],is_user=True)
         message(bot_messages[i+1])
     return count
-
-@st.cache
-count = display_messages(count, bot_messages, user_messages)
-#if count == 0:
-    #x = display_messages(count, bot_messages, user_messages)[0]
-
 
 text_input = st.text_input('User:')
 if st.button('Send Message'):
     user_messages.append(text_input)
     response = bot.get_response(str(text_input))
     bot_messages.append(str(response))
-    st.write(count)
-    count += 1
-    st.write(count)
-    display_messages(count, bot_messages, user_messages)
+    st.write(st.session_state.count)
+    st.session_state.count += 1
+    st.write(st.session_state.count)
+    display_messages(st.session_state.count, bot_messages, user_messages)
 
-
+### Adding Examples
 user_messages_examples = ["Hi","I am currently an undergraduate student, may I still apply?","When is the deadline for submitting applications?","Does Jackson offer funding?","Thank you for your help!"]
 bot_messages_examples = ["Hi there! How can I help you?","Current undergraduate students are permitted to apply to Jackson, but unless you are applying as part of a globally-focused fellowship or similar program, we strongly recommend having 1-2 years of postgraduate work experience before applying.","We are unable to accept applications received after the deadline of 11:59pm Eastern Time on 2 January. It is strongly advised to submit applications well before the deadline in order to avoid the possibility of technical issues in accessing your application. If you are experiencing such difficulties, please send an email to Graduate.Admissions@yale.edu.","Yes. Jackson offers generous funding on a merit basis to M.P.P. students. Awards typically range from half tuition to full tuition plus a stipend. The details of funding awards are provided at the time of admission. (Read more here) M.A.S. students are not eligible for funding from Jackson.","No worries! Please do not hesitate if you have any other questions 😊"]
 
