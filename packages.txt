@@ -1,2 +1,2 @@
-ChatterBot1.0.8-dev
-chatterbot-corpus1.2.0-dev
+ChatterBot-dev
+chatterbot-corpus-dev
