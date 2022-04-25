@@ -34,8 +34,6 @@ trainer = trainer.train([
     'As Jackson prepares to launch as a professional school in Fall 2022, the Yale Corporation has approved the Master in Public Policy (M.P.P.) degree to be awarded by the Jackson School of Global Affairs starting in 2023. This means all students applying for Fall 2022 enrollment will be applying for the Master in Public Policy in Global Affairs.',
     'There is no option to apply for the M.P.P. degree in the application. What should I choose?',
     'During the 2021-2022 academic year the Jackson Institute is still part of the Graduate School of Arts and Sciences; therefore Jackson is still using the GSAS application form. Please select the M.A. in Global Affairs option on the application form. Students admitted to the M.A. program in March 2022 will be switched to the M.P.P. upon enrollment in the fall of 2022 when Jackson officially becomes a school and is able to award its own degrees.',
-    'Does Jackson Admissions offer webinars?',
-    'The Institute hosts online chats for prospective students during the fall admissions season and over the summer. The webinars provide an overview of the admissions process and a Q&A session with admissions staff. Visit our admissions events page for a list of upcoming sessions. You can also view past webinars on our archive page.',
     'When is the deadline for submitting applications?',
     'We are unable to accept applications received after the deadline of 11:59pm Eastern Time on 2 January. It is strongly advised to submit applications well before the deadline in order to avoid the possibility of technical issues in accessing your application. If you are experiencing such difficulties, please send an email to Graduate.Admissions@yale.edu.',
     'How can I apply for an application fee waiver, if I meet the eligibility requirements?',
@@ -73,7 +71,7 @@ trainer = trainer.train([
     'How can I contact Jackson?',
     'If you have additional questions, please send all inquiries to Jackson.Admissions@yale.edu. Alternatively, you may fill out our web-based contact form.',
     'Hi',
-    "Hi, how can I help you?"
+    "Hi, how can I help you?",
     'Where is Yale University located?',
     'Yale University is located in New Haven, Connecticut.',
     'What programs are available?',
@@ -100,29 +98,40 @@ bot_messages.append(bot_initial_message)
 
 
 st.image('jackson_logo.png')
-
-def display_messages(count, bot_messages, user_messages):
-    if count == 0:
-        display_response = message(bot_messages[0])
-    elif count == 1:
-        display_response = message(bot_messages[0]), message(user_messages[0],is_user=True), message(bot_messages[1])
-    elif count == 2:
-        display_response = message(bot_messages[0]), message(user_messages[0],is_user=True), message(bot_messages[1]), message(user_messages[1],is_user=True)
-
-    return display_response
-
 count = 0
+
+@st.cache(suppress_st_warning=True)
+def display_messages(count, bot_messages, user_messages):
+    for i in range(0,len(user_messages)):
+        message(bot_messages[i])
+        message(user_messages[i],is_user=True)
+        message(bot_messages[i+1])
+    return count
+
+@st.cache
+count = display_messages(count, bot_messages, user_messages)
 #if count == 0:
     #x = display_messages(count, bot_messages, user_messages)[0]
+
 
 text_input = st.text_input('User:')
 if st.button('Send Message'):
     user_messages.append(text_input)
     response = bot.get_response(str(text_input))
     bot_messages.append(str(response))
+    st.write(count)
     count += 1
-    display_messages(count, bot_messages, user_messages)[0]
+    st.write(count)
+    display_messages(count, bot_messages, user_messages)
 
+
+user_messages_examples = ["Hi","I am currently an undergraduate student, may I still apply?","When is the deadline for submitting applications?","Does Jackson offer funding?","Thank you for your help!"]
+bot_messages_examples = ["Hi there! How can I help you?","Current undergraduate students are permitted to apply to Jackson, but unless you are applying as part of a globally-focused fellowship or similar program, we strongly recommend having 1-2 years of postgraduate work experience before applying.","We are unable to accept applications received after the deadline of 11:59pm Eastern Time on 2 January. It is strongly advised to submit applications well before the deadline in order to avoid the possibility of technical issues in accessing your application. If you are experiencing such difficulties, please send an email to Graduate.Admissions@yale.edu.","Yes. Jackson offers generous funding on a merit basis to M.P.P. students. Awards typically range from half tuition to full tuition plus a stipend. The details of funding awards are provided at the time of admission. (Read more here) M.A.S. students are not eligible for funding from Jackson.","No worries! Please do not hesitate if you have any other questions 😊"]
+
+if st.button('Display examples'):
+    for i in range(0,len(user_messages_examples)):
+        message(user_messages_examples[i],is_user=True)
+        message(bot_messages_examples[i])
 # new_user_input_ids = 0
 
 # user_messages.append(display_messages(count)[1])
