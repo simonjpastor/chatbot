@@ -23,7 +23,18 @@ from chatterbot.trainers import ListTrainer
 
 trainer = ListTrainer(bot)
 
-trainer = trainer.train([
+#financial training
+trainer.train([
+    'How do I apply for the fellowships listed on the Jackson website?',
+    'Simply check the box on the application indicating that you would like to be considered for financial assistance. You will automatically be considered for any source of funding for which you are eligible.',
+    'Does Jackson offer funding?',
+    'Yes. Jackson offers generous funding on a merit basis to M.P.P. students. Awards typically range from half tuition to full tuition plus a stipend. The details of funding awards are provided at the time of admission. (Read more here) M.A.S. students are not eligible for funding from Jackson.',
+    "Tell me more about Funding",
+    "100% of Jackson students who requested financial aid received it, with the average merit-based scholarship being of $47.8K",
+])
+
+#general training
+trainer.train([
     'Does Jackson Admissions offer webinars?',
     'The Institute hosts online chats for prospective students during the fall admissions season and over the summer. The webinars provide an overview of the admissions process and a Q&A session with admissions staff. Visit our admissions events page for a list of upcoming sessions. You can also view past webinars on our archive page.',
     'When is the deadline for submitting applications?',
@@ -60,10 +71,10 @@ trainer = trainer.train([
     'Jackson’s M.P.P. requires only four core courses: GLBL 802 - Applied Methods of Analysis (Fall, first year) GLBL 805 - Comparative Politics for Global Affairs (Fall of first or second year) GLBL 803 - History and Global Affairs (Spring, first year) GLBL 804 - Economics for Global Affairs (Spring, first year) Requires basic knowledge in economics and calculus. A diagnostic exam before the first year will determine if students need to take a prerequisite foundational economics course in the fall of the first year to prepare themselves for this course. Students are able to choose classes from across the university for the remaining terms. Please refer to the current course catalogue for further information.',
     'Are there opportunities to earn money during the academic year?',
     'Yes. Many Jackson students take advantage of the opportunity to become a Research Assistant or Teaching Assistant at Jackson or in other departments across the University. More details here',
-    'How do I apply for the fellowships listed on the Jackson website?',
-    'Simply check the box on the application indicating that you would like to be considered for financial assistance. You will automatically be considered for any source of funding for which you are eligible.',
-    'Does Jackson offer funding?',
-    'Yes. Jackson offers generous funding on a merit basis to M.P.P. students. Awards typically range from half tuition to full tuition plus a stipend. The details of funding awards are provided at the time of admission. (Read more here) M.A.S. students are not eligible for funding from Jackson.',
+    #'How do I apply for the fellowships listed on the Jackson website?',
+    #'Simply check the box on the application indicating that you would like to be considered for financial assistance. You will automatically be considered for any source of funding for which you are eligible.',
+    #'Does Jackson offer funding?',
+    #'Yes. Jackson offers generous funding on a merit basis to M.P.P. students. Awards typically range from half tuition to full tuition plus a stipend. The details of funding awards are provided at the time of admission. (Read more here) M.A.S. students are not eligible for funding from Jackson.',
     'I’d like to connect with Admissions. What options are available?',
     'The Jackson Admissions Office conducts recruiting events in major cities and also hosts webinars and Visit Days in the fall. Please visit our Events page (https://jackson.yale.edu/event-type/graduate-admissions/) for a list of upcoming recruitment events and links to register. Students are also welcome to visit Jackson on their own, but please be advised that availability of Admissions Office staff may be limited.',
     'I have additional questions. What’s the best way to get in touch?',
@@ -86,38 +97,67 @@ trainer = trainer.train([
     "48% of Jackson students are international students",
     "What is the average GPA ?",
     "3.7 is the median GPA of Jackson students",
-    "Tell me more about Funding",
-    "100% of Jackson students who requested financial aid received it, with the average merit-based scholarship being of $47.8K",
+    #"Tell me more about Funding",
+    #"100% of Jackson students who requested financial aid received it, with the average merit-based scholarship being of $47.8K",
 ])
 
-#Streamlit
-bot_messages = []
-user_messages = []
-bot_initial_message = "Hi, I'm Jackbot a bot created by first-year M.P.P Jackson students to attempt to answer some of the questions you may have about the Yale Jackson School of Global Affairs!"
-bot_messages.append(bot_initial_message)
-
-
 st.image('jackson_logo.png')
-if 'count' not in st.session_state:
-    st.session_state.count = 0
+if 'generated' not in st.session_state:
+    st.session_state['generated'] = []
 
-@st.cache(suppress_st_warning=True)
-def display_messages(count, bot_messages, user_messages):
-    for i in range(0,count):
-        message(bot_messages[i])
-        message(user_messages[i],is_user=True)
-        message(bot_messages[i+1])
-    return count
+if 'past' not in st.session_state:
+    st.session_state['past'] = []
 
-text_input = st.text_input('User:')
-if st.button('Send Message'):
-    user_messages.append(text_input)
-    response = bot.get_response(str(text_input))
-    bot_messages.append(str(response))
-    st.write(st.session_state.count)
-    st.session_state.count += 1
-    st.write(st.session_state.count)
-    display_messages(st.session_state.count, bot_messages, user_messages)
+def get_text():
+    input_text = st.text_input("You: ","Hello, how are you?", key="input")
+    return input_text
+
+user_input = get_text()
+
+if st.button('Send Message')or user_input :
+    output = bot.get_response(str(user_input))
+    st.session_state.past.append(str(user_input))
+    st.session_state.generated.append(str(output))
+
+if st.session_state['generated']:
+
+    for i in range(len(st.session_state['generated'])-1, -1, -1):
+        message(st.session_state["generated"][i], key=str(i))
+        message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
+
+# #Streamlit
+# bot_messages = []
+# user_messages = []
+# bot_initial_message = "Hi, I'm Jackbot a bot created by first-year M.P.P Jackson students to attempt to answer some of the questions you may have about the Yale Jackson School of Global Affairs!"
+# bot_messages.append(bot_initial_message)
+
+# if 'count' not in st.session_state:
+#     st.session_state.count = 0
+#     st.session_state.bot_messages = []
+#     st.session_state.user_messages = []
+#     st.session_state.bot_messages.append(bot_initial_message)
+
+# #@st.cache(suppress_st_warning=True)
+# def display_messages(count, bot_messages, user_messages):
+#     for i in range(0,count):
+#         message(st.session_state.bot_messages[i])
+#         message(st.session_state.user_messages[i],is_user=True)
+#         message(st.session_state.bot_messages[i+1])
+#     return count
+
+# text_input = st.text_input('User:')
+# if st.button('Send Message'):
+#     st.session_state.user_messages.append(text_input)
+#     response = bot.get_response(str(text_input))
+#     st.session_state.bot_messages.append(str(response))
+#     #st.write(st.session_state.count)
+#     #st.write(st.session_state.bot_messages)
+#     st.session_state.count += 1
+#     for i in range(0,st.session_state.count):
+#         message(st.session_state.bot_messages[i])
+#         message(st.session_state.user_messages[i],is_user=True)
+#         message(st.session_state.bot_messages[i+1])
+    #display_messages(st.session_state.count, st.session_state.bot_messages, st.session_state.user_messages)
 
 ### Adding Examples
 user_messages_examples = ["Hi","I am currently an undergraduate student, may I still apply?","When is the deadline for submitting applications?","Does Jackson offer funding?","Thank you for your help!"]
