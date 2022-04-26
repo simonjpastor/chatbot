@@ -17,8 +17,8 @@ dependencies:
     - cachetools==5.0.0
     - cffi==1.15.0
     - charset-normalizer==2.0.12
-    - chatterbot-1.0.4
-    - chatterbot-corpus-1.2.0
+    - chatterbot==1.0.4
+    - chatterbot==corpus-1.2.0
     - click==8.0.4
     - debugpy==1.6.0
     - decorator==5.1.1
