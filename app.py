@@ -7,6 +7,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import pandas as pd
 from streamlit_chat import message
 import random
+from typing import Literal
 
 icon = [":fr:",":kr:",":crown:","old_key",":computer:",":desktop_computer:",":robot_face:"]
 st.set_page_config(
