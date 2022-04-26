@@ -9,4 +9,6 @@ dependencies:
     - chatterbot==1.0.8
     - chatterbot-corpus==1.2.0
     - pyyaml==3.13
+    - streamlit
+    - setuptools==61.2.0
 prefix: /Users/simonpastor/opt/anaconda3/envs/chatterbot_example
