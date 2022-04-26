@@ -4,10 +4,10 @@ channels:
 dependencies:
   - pip==21.2.4
   - python==3.9.12
-  - chatterbot==1.0.8
-  - chatterbot-corpus
   - python-dateutil
   - pip:
+    - chatterbot==1.0.4
+    - chatterbot-corpus==1.2.0
     - markupsafe==2.1.1
     - spacy==3.2.4
     - spacy-legacy==3.0.9
