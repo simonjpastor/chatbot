@@ -2,8 +2,8 @@ name: chatterbot_example
 channels:
   - defaults
 dependencies:
-  - pip
-  - python=3.9.12
+  - pip==21.2.4
+  - python==3.9.12
   - pip:
     - appnope==0.1.3
     - argon2-cffi==21.3.0
