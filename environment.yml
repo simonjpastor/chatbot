@@ -102,4 +102,3 @@ dependencies:
     - webencodings==0.5.1
     - widgetsnbextension==3.6.0
     - zipp==3.8.0
-prefix: /Users/simonpastor/opt/anaconda3/envs/chatterbot_example
