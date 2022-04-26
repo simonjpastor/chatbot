@@ -1,5 +1,0 @@
-
-ChatterBot==1.0.8
-chatterbot-corpus==1.2.0
-click==8.0.4
-streamlit==1.8.1
