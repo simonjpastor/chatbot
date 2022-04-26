@@ -6,7 +6,13 @@ import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import pandas as pd
 from streamlit_chat import message
+import random
 
+icon = [":fr:",":kr:",":crown:","old_key",":computer:",":desktop_computer:",":robot_face:"]
+st.set_page_config(
+    page_title="Jackbot",
+    page_icon=f"{icon[random.randrange(0,7)]}"
+)
 
 #Instantiating Bot
 bot = ChatBot(
@@ -33,8 +39,7 @@ trainer.train([
     "100% of Jackson students who requested financial aid received it, with the average merit-based scholarship being of $47.8K",
 ])
 
-#general training
-trainer.train([
+questions = [
     'Does Jackson Admissions offer webinars?',
     'The Institute hosts online chats for prospective students during the fall admissions season and over the summer. The webinars provide an overview of the admissions process and a Q&A session with admissions staff. Visit our admissions events page for a list of upcoming sessions. You can also view past webinars on our archive page.',
     'When is the deadline for submitting applications?',
@@ -99,25 +104,59 @@ trainer.train([
     "3.7 is the median GPA of Jackson students",
     #"Tell me more about Funding",
     #"100% of Jackson students who requested financial aid received it, with the average merit-based scholarship being of $47.8K",
-])
+]
+
+#general training
+trainer.train(questions)
 
 st.image('jackson_logo.png')
+st.header("Jackbot, The Jackson M.P.P Chatbot")
+
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
 
 if 'past' not in st.session_state:
     st.session_state['past'] = []
 
+random_number = random.randrange(0,58,2)
 def get_text():
-    input_text = st.text_input("You: ","Hello, how are you?", key="input")
+    #question = ["Where is Yale University located?",'How can I contact Jackson?','Are there opportunities to earn money during the academic year?','I am currently an undergraduate student, may I still apply?', 'When is the deadline for submitting applications?']
+    suggestion = f"""Ask me anything! """
+    input_text = st.text_input(suggestion, key="input")
     return input_text
 
 user_input = get_text()
 
-if st.button('Send Message')or user_input :
-    output = bot.get_response(str(user_input))
-    st.session_state.past.append(str(user_input))
-    st.session_state.generated.append(str(output))
+# def send_message():
+#     output = bot.get_response(str(user_input))
+#     st.session_state.past.append(str(user_input))
+#     st.session_state.generated.append(str(output))
+#     return st.session_state.past, st.session_state.generated
+
+# def ask_random_question():
+#     user_input = questions[random_number]
+#     output = bot.get_response(str(user_input))
+#     st.session_state.past.append(str(user_input))
+#     st.session_state.generated.append(str(output))
+#     return st.session_state.past, st.session_state.generated
+
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.write("")
+with col2:
+    if st.button('Send Message 🚀', key="input1") or user_input:
+        output = bot.get_response(str(user_input))
+        st.session_state.past.append(str(user_input))
+        st.session_state.generated.append(str(output))
+with col3:
+    if st.button('Generate & Ask Random Question 🤔', key="input2"):
+        random_input = questions[random_number]
+        output = bot.get_response(str(random_input))
+        st.session_state.past.append(str(random_input))
+        st.session_state.generated.append(str(output))
+with col4:
+    st.write("")
 
 if st.session_state['generated']:
 
@@ -164,6 +203,7 @@ user_messages_examples = ["Hi","I am currently an undergraduate student, may I s
 bot_messages_examples = ["Hi there! How can I help you?","Current undergraduate students are permitted to apply to Jackson, but unless you are applying as part of a globally-focused fellowship or similar program, we strongly recommend having 1-2 years of postgraduate work experience before applying.","We are unable to accept applications received after the deadline of 11:59pm Eastern Time on 2 January. It is strongly advised to submit applications well before the deadline in order to avoid the possibility of technical issues in accessing your application. If you are experiencing such difficulties, please send an email to Graduate.Admissions@yale.edu.","Yes. Jackson offers generous funding on a merit basis to M.P.P. students. Awards typically range from half tuition to full tuition plus a stipend. The details of funding awards are provided at the time of admission. (Read more here) M.A.S. students are not eligible for funding from Jackson.","No worries! Please do not hesitate if you have any other questions 😊"]
 
 if st.button('Display examples'):
+    st.markdown("Here are some examples of the conversations you can have with JackBot")
     for i in range(0,len(user_messages_examples)):
         message(user_messages_examples[i],is_user=True)
         message(bot_messages_examples[i])
