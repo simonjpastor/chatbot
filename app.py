@@ -4,7 +4,6 @@ import streamlit as st
 import torch
 import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer
-import pandas as pd
 from streamlit_chat import message
 import random
 from typing_extensions import Literal
