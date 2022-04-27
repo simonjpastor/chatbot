@@ -3,7 +3,7 @@ channels:
   - defaults
 dependencies:
   - pip
-  - python==3.9.12
+  - python
   - python-dateutil
   - pip:
     - chatterbot==1.0.4
