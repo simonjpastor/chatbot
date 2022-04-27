@@ -15,14 +15,17 @@ st.set_page_config(
     page_icon=f"{icon[random.randrange(0,7)]}"
 )
 
+nlp = spacy.load("en_core_web_sm")
+
 #Instantiating Bot
 bot = ChatBot(
     'Norman',
-    #storage_adapter='chatterbot.storage.SQLStorageAdapter',
+    storage_adapter=nlp,
     logic_adapters=[
         'chatterbot.logic.MathematicalEvaluation',
         'chatterbot.logic.BestMatch',
        ])
+
 
 
 #Training Bot
