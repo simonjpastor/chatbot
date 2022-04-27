@@ -7,7 +7,6 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 #from streamlit_chat import message
 import random
 from chatterbot.trainers import ListTrainer
-import spacy
 #from typing_extensions import Literal
 
 icon = [":fr:",":kr:",":crown:","old_key",":computer:",":desktop_computer:",":robot_face:"]
@@ -16,12 +15,10 @@ st.set_page_config(
     page_icon=f"{icon[random.randrange(0,7)]}"
 )
 
-nlp = spacy.load("en_core_web_sm")
-
 #Instantiating Bot
 bot = ChatBot(
     'Norman',
-    storage_adapter=nlp,
+    storage_adapter='chatterbot.storage.SQLStorageAdapter',
     logic_adapters=[
         'chatterbot.logic.MathematicalEvaluation',
         'chatterbot.logic.BestMatch',
