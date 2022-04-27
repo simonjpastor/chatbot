@@ -4,9 +4,10 @@ import streamlit as st
 import torch
 import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer
-from streamlit_chat import message
+#from streamlit_chat import message
 import random
-from typing_extensions import Literal
+from chatterbot.trainers import ListTrainer
+#from typing_extensions import Literal
 
 icon = [":fr:",":kr:",":crown:","old_key",":computer:",":desktop_computer:",":robot_face:"]
 st.set_page_config(
@@ -25,8 +26,6 @@ bot = ChatBot(
 
 
 #Training Bot
-from chatterbot.trainers import ListTrainer
-
 trainer = ListTrainer(bot)
 
 #financial training
