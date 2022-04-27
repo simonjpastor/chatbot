@@ -10,7 +10,7 @@ import spacy
 from chatterbot.trainers import ListTrainer
 #from typing_extensions import Literal
 
-nlp = spacy.load("/Users/simonpastor/opt/anaconda3/lib/python3.8/site-packages/en_core_web_sm")
+nlp = spacy.load("../en_core_web_sm-3.2.0")
 
 icon = [":fr:",":kr:",":crown:","old_key",":computer:",":desktop_computer:",":robot_face:"]
 st.set_page_config(
