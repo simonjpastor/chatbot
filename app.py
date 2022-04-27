@@ -21,10 +21,8 @@ bot = ChatBot(
     storage_adapter='chatterbot.storage.SQLStorageAdapter',
     logic_adapters=[
         'chatterbot.logic.MathematicalEvaluation',
-        #'chatterbot.logic.BestMatch',
+        'chatterbot.logic.BestMatch',
        ])
-
-
 
 #Training Bot
 trainer = ListTrainer(bot)

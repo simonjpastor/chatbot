@@ -9,7 +9,7 @@ dependencies:
     - chatterbot-corpus==1.2.0
     - markupsafe==2.1.1
     - spacy==3.2.4
-    - spacy-legacy==3.0.9
+    - spacy-legacy==2.3.5
     - spacy-loggers==1.0.2
     - sqlalchemy
     - streamlit==1.8.1
