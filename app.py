@@ -7,6 +7,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 #from streamlit_chat import message
 import random
 from chatterbot.trainers import ListTrainer
+import spacy
 #from typing_extensions import Literal
 
 icon = [":fr:",":kr:",":crown:","old_key",":computer:",":desktop_computer:",":robot_face:"]
