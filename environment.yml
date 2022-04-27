@@ -5,7 +5,7 @@ dependencies:
   - pip==21.2.2
   - python
   - pip:
-    - chatterbot==1.0.8
+    - chatterbot
     - chatterbot-corpus==1.2.0
     - markupsafe==2.1.1
     - spacy==3.2.4
