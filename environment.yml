@@ -2,7 +2,7 @@ name: chatterbot_example
 channels:
   - defaults
 dependencies:
-  - pip==22.0.4
+  - pip
   - python==3.9.12
   - python-dateutil
   - pip:
