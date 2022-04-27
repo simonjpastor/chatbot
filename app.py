@@ -9,6 +9,8 @@ import random
 from chatterbot.trainers import ListTrainer
 #from typing_extensions import Literal
 
+nlp = spacy.load("/Users/simonpastor/opt/anaconda3/lib/python3.8/site-packages/en_core_web_sm")
+
 icon = [":fr:",":kr:",":crown:","old_key",":computer:",":desktop_computer:",":robot_face:"]
 st.set_page_config(
     page_title="Jackbot",
