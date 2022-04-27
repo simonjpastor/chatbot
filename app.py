@@ -6,6 +6,7 @@ import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer
 #from streamlit_chat import message
 import random
+import spacy
 from chatterbot.trainers import ListTrainer
 #from typing_extensions import Literal
 
